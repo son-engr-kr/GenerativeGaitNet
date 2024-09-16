@@ -2,13 +2,20 @@
 
 
 ## MuscleNN
-
+`-> ray_env.py -> class MuscleLearner:`
 ## SimulationNN
+RL part
+- Nothing special here I think...
 
+`-> ray_env.py -> X`
+
+`-> ray_model.py -> class SimulationNN_Ray(TorchModelV2, SimulationNN):`
+
+`-> ray_model.py -> class PolicyNN:`
 ## RefNN
-
+`-> ray_env.py -> class RefLearner:`
 ## MarginalNN
-
+`-> ray_env.py -> class MarginalLearner:`
 
 # Environment.cpp
 
@@ -67,3 +74,4 @@ Environment::
 	return std::fmod(mLocalTime, t_phase) / t_phase;
 }
 ```
+BVH: BioVision Hierarchy..?

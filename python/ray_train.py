@@ -630,6 +630,7 @@ if __name__ == "__main__":
             proj_state_num = len(env.env.GetProjState(space[0], space[1]))
 
             # embed()
+            # policy, muscle, marginal, ref, islast
             sim_nn, muscle_nn, _, _, _ = load_from_checkpoint(
                 model_path, proj_state_num, env.num_action + action_diff, env.num_paramstate, env.num_active_dof, env.num_muscles, env.num_muscle_dofs)
             # space = env.env.GetSpace(metadata_from_checkpoint(model_path))
