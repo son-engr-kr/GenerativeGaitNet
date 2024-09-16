@@ -558,9 +558,10 @@ if __name__ == "__main__":
         metadata = args.metadata
 
     if args.cluster:
-        ray.init(address=os.environ["ip_head"])
+        ray.init(address=os.environ["ip_head"], num_cpus=8, num_gpus=1)
     else:
-        ray.init()
+        ray.init(num_cpus=8, num_gpus=1)
+    print(f"ray.available_resources(): {ray.available_resources()}")
 
     print("Nodes in the Ray cluster:")
     print(ray.nodes())

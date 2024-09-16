@@ -27,15 +27,49 @@ We checked code works in Python 3.6, ray(rllib) 1.8.0 and Cluster Server (64 CPU
 cd {downloaded folder}/
 ./install.sh
 ```
+`root\pkgsrc\dart\examples\deprecated_examples\glut_human_joint_limits\CMakeLists.txt`
+```bash
+if(DART_IN_SOURCE_BUILD)
+    dart_build_example_in_source(${example_name}
+      LINK_LIBRARIES ${required_libraries}
+      COMPILE_FEATURES cxx_std_14
+    )
+  #endif() ->  delete this line
+  return()
+endif()
+```
 
+```bash
+python3.6 -m venv .venv
+source .venv/bin/activate
+```
 ### Compile
 ```bash
 cd {downloaded folder}/
 ./pc_build.sh
 cd build
-make -j32
+make -j${proc}
 ```
 
+cuda version: 12.1 (maybe)
+```
+pip install --upgrade pip
+pip install ray[rllib]==1.8.0
+pip uninstall gym -y
+pip install gym==0.21.0
+pip install IPython
+
+cd path/to/temp
+wget https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-keyring_1.1-1_all.deb
+sudo dpkg -i cuda-keyring_1.1-1_all.deb
+sudo apt-get update
+sudo apt-get -y install cuda-toolkit-12-5
+nvcc --version
+
+//pip install torch torchvision torchaudio
+pip install torch==1.7.1+cu110 torchvision==0.8.2+cu110 -f https://download.pytorch.org/whl/torch_stable.html
+
+```
 
 
 ## Rendering
@@ -128,5 +162,9 @@ cd {downloaded folder}/python
 python3 ray_train.py --config=ppo_medium_node --cascading_nn={previous network paths}
 ```
 
-
+pc test
+```bash
+cd {downloaded folder}/python
+python3 ray_train.py --config=ppo_mini
+```
 
