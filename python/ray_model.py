@@ -176,7 +176,7 @@ class MuscleNN(nn.Module):
 
         self.fc.apply(weights_init)
 
-    def forward(self, muscle_tau, tau):
+    def forward(self, muscle_tau, tau):#what is muscle tau?
         muscle_tau = muscle_tau / self.std_muscle_tau
         tau = tau / self.std_tau
         out = torch.relu(torch.tanh(self.fc.forward(

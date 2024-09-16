@@ -22,7 +22,7 @@ common_config = {
 }
 
 CONFIG["ppo"] = copy.deepcopy(common_config)
-CONFIG["ppo"]["trainer_config"]["algorithm"] = "CustomPPO"
+CONFIG["ppo"]["trainer_config"]["algorithm"] = "CustomPPO" # CustomPPOTrainer
 CONFIG["ppo"].update({
     # "horizon": inf,
     "horizon" : 1000,
