@@ -149,7 +149,9 @@ muscle_end
 Training is executed based on the metadata setting. 
 
 Training a single policy (Cluster setting)
-
+```bash
+source .venv/bin/activate
+```
 ```bash
 cd {downloaded folder}/python
 python3 ray_train.py --config=ppo_medium_node 
@@ -168,3 +170,36 @@ cd {downloaded folder}/python
 python3 ray_train.py --config=ppo_mini
 ```
 
+# Issues:
+
+## No CUDA
+```
+Failure # 1 (occurred at 2024-09-16_14-11-12)
+Traceback (most recent call last):
+  File "/home/son/develops/GenerativeGaitNet/.venv/lib/python3.6/site-packages/ray/tune/trial_runner.py", line 890, in _process_trial
+    results = self.trial_executor.fetch_result(trial)
+  File "/home/son/develops/GenerativeGaitNet/.venv/lib/python3.6/site-packages/ray/tune/ray_trial_executor.py", line 788, in fetch_result
+    result = ray.get(trial_future[0], timeout=DEFAULT_GET_TIMEOUT)
+  File "/home/son/develops/GenerativeGaitNet/.venv/lib/python3.6/site-packages/ray/_private/client_mode_hook.py", line 105, in wrapper
+    return func(*args, **kwargs)
+  File "/home/son/develops/GenerativeGaitNet/.venv/lib/python3.6/site-packages/ray/worker.py", line 1625, in get
+    raise value.as_instanceof_cause()
+ray.exceptions.RayTaskError(RuntimeError): [36mray::MASSTrainer.train_buffered()[39m (pid=13444, ip=172.18.120.62, repr=CustomPPO)
+  File "/home/son/develops/GenerativeGaitNet/.venv/lib/python3.6/site-packages/ray/tune/trainable.py", line 224, in train_buffered
+    result = self.train()
+  File "/home/son/develops/GenerativeGaitNet/.venv/lib/python3.6/site-packages/ray/rllib/agents/trainer.py", line 682, in train
+    raise e
+  File "/home/son/develops/GenerativeGaitNet/.venv/lib/python3.6/site-packages/ray/rllib/agents/trainer.py", line 668, in train
+    result = Trainable.train(self)
+  File "/home/son/develops/GenerativeGaitNet/.venv/lib/python3.6/site-packages/ray/tune/trainable.py", line 283, in train
+    result = self.step()
+  File "ray_train.py", line 261, in step
+    stats = self.muscle_learner.learn(res)
+  File "/home/son/develops/GenerativeGaitNet/python/ray_env.py", line 330, in learn
+    JtA_all = torch.tensor(muscle_transitions[0], device="cuda")
+  File "/home/son/develops/GenerativeGaitNet/.venv/lib/python3.6/site-packages/torch/cuda/__init__.py", line 172, in _lazy_init
+    torch._C._cuda_init()
+RuntimeError: No CUDA GPUs are available
+
+
+```
