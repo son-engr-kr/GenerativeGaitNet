@@ -37,3 +37,10 @@ slurm-*.out
 
 # Error Log 
 error_log.txt
+
+
+# venv
+/.venv/
+
+# temp
+/temp/

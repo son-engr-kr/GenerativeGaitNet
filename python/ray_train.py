@@ -541,6 +541,16 @@ parser.add_argument('-m', '--use-metadata', action='store_true')
 parser.add_argument('-n', '--name', type=str)
 
 if __name__ == "__main__":
+
+    ################################HSSon-check code#################################
+    print("####################################################################")
+    print(f"torch.__file__: {torch.__file__}")
+    print(f"torch.cuda.is_available():{torch.cuda.is_available()}")
+    torch.cuda.set_device(0)
+    # torch._C._cuda_init()
+    print("####################################################################")
+
+    #################################################################################
     metadata = None
     checkpoint_path = None
     args = parser.parse_args()
@@ -558,9 +568,9 @@ if __name__ == "__main__":
         metadata = args.metadata
 
     if args.cluster:
-        ray.init(address=os.environ["ip_head"])
+        ray.init(address=os.environ["ip_head"], num_cpus=8, num_gpus=1)
     else:
-        ray.init()
+        ray.init(num_cpus=8, num_gpus=1)
 
     print("Nodes in the Ray cluster:")
     print(ray.nodes())
