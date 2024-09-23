@@ -93,7 +93,6 @@ CONFIG["ppo_medium_node"]["num_workers"] = 128
 CONFIG["ppo_medium_pc"] = copy.deepcopy(CONFIG["ppo_medium"])
 CONFIG["ppo_medium_pc"]["num_workers"] = 32
 
-
 # Mini Set (For Test)
 CONFIG["ppo_mini"] = copy.deepcopy(CONFIG["ppo"])
 CONFIG["ppo_mini"]["train_batch_size"] = 512

@@ -66,7 +66,7 @@ sudo apt-get update
 sudo apt-get -y install cuda-toolkit-12-5
 echo 'export PATH=/usr/local/cuda-12.5/bin${PATH:+:${PATH}}' >> ~/.bashrc
 source ~/.bashrc
-sudo ln -s /usr/lib/wsl/lib/libcuda.so.1 /usr/local/cuda/lib64/libcuda.so
+//sudo ln -s /usr/lib/wsl/lib/libcuda.so.1 /usr/local/cuda/lib64/libcuda.so
 nvcc --version
 
 //pip install torch torchvision torchaudio

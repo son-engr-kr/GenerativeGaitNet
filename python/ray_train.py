@@ -546,7 +546,7 @@ if __name__ == "__main__":
     print("####################################################################")
     print(f"torch.__file__: {torch.__file__}")
     print(f"torch.cuda.is_available():{torch.cuda.is_available()}")
-    torch.cuda.set_device(0)
+    # torch.cuda.set_device(0)
     # torch._C._cuda_init()
     print("####################################################################")
 
@@ -566,11 +566,17 @@ if __name__ == "__main__":
         checkpoint_path = str(checkpoint_path.parent)
     else:
         metadata = args.metadata
-
+    ray.shutdown()
     if args.cluster:
-        ray.init(address=os.environ["ip_head"], num_cpus=8, num_gpus=1)
+        ray.init(address=os.environ["ip_head"], num_cpus=2, num_gpus=1)
+        print("This is cluster")
     else:
-        ray.init(num_cpus=8, num_gpus=1)
+        print("This is NOT cluster")
+        ray.init(num_cpus=2, num_gpus=1)
+
+    print(f"ray.available_resources()):{ray.available_resources()}")
+    
+    print(f"ray.cluster_resources():{ray.cluster_resources()}")
 
     print("Nodes in the Ray cluster:")
     print(ray.nodes())
@@ -670,13 +676,15 @@ if __name__ == "__main__":
 
     # Limit the number of rows.
     reporter = CLIReporter(max_report_frequency=10)
-
+    print("tune.run!")
     tune.run(MASSTrainer,
              name=args.name,
              config=config,
              local_dir=local_dir,
              restore=checkpoint_path,
              progress_reporter=reporter,
-             checkpoint_freq=25)
+             checkpoint_freq=25,
+             
+             )
 
     ray.shutdown()

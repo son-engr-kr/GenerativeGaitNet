@@ -327,12 +327,14 @@ class MuscleLearner:
         l = len(muscle_transitions[0])
 
         idx_all = np.array(range(len(muscle_transitions[0])))
-        JtA_all = torch.tensor(muscle_transitions[0], device="cuda")
-        tau_des_all = torch.tensor(muscle_transitions[1], device="cuda")
-        L_all = torch.tensor(muscle_transitions[2], device="cuda")
-        b_all = torch.tensor(muscle_transitions[3], device="cuda")
-        prev_out_all = torch.tensor(muscle_transitions[4], device="cuda")
-        w_all = torch.tensor(muscle_transitions[5], device="cuda")
+        print(f"torch.cuda.is_available() in ray_env.py.MuscleLearner.learn() :{torch.cuda.is_available()}")
+
+        JtA_all = torch.tensor(muscle_transitions[0], device=self.device)
+        tau_des_all = torch.tensor(muscle_transitions[1], device=self.device)
+        L_all = torch.tensor(muscle_transitions[2], device=self.device)
+        b_all = torch.tensor(muscle_transitions[3], device=self.device)
+        prev_out_all = torch.tensor(muscle_transitions[4], device=self.device)
+        w_all = torch.tensor(muscle_transitions[5], device=self.device)
 
         converting_time = (time.perf_counter() - start_time) * 1000
         start_time = time.perf_counter()
@@ -344,7 +346,9 @@ class MuscleLearner:
             for i in range(l // self.muscle_batch_size):
 
                 mini_batch_idx = torch.from_numpy(
-                    idx_all[i*self.muscle_batch_size: (i+1)*self.muscle_batch_size]).cuda()
+                    idx_all[i*self.muscle_batch_size: (i+1)*self.muscle_batch_size])
+                if torch.cuda.is_available():
+                    mini_batch_idx = mini_batch_idx.cuda()
                 JtA = torch.index_select(JtA_all, 0, mini_batch_idx)
                 tau_des = torch.index_select(tau_des_all, 0, mini_batch_idx)
                 b = torch.index_select(b_all, 0, mini_batch_idx)
